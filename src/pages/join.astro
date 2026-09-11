@@ -1,0 +1,69 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Join the Ripple">
+  <section class="page-head join-head">
+    <p class="eyebrow">Join the Ripple</p>
+    <h1>Lead with what you are <em>prepared to give.</em></h1>
+    <p class="lede">Put your hand up. Tell us how you might be useful, what you are curious about and what you could use help with. Submissions are reviewed before anything is published.</p>
+  </section>
+  <form class="join-form" id="join-form">
+    <input class="form-trap" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true" />
+    <div class="two">
+      <label>Name *<input name="name" required autocomplete="name" maxlength="120" /></label>
+      <label>Email *<input type="email" name="email" required autocomplete="email" maxlength="254" /></label>
+    </div>
+    <label>Location<input name="location" autocomplete="address-level2" placeholder="Suburb, city or region" maxlength="160" /></label>
+    <label>What can you genuinely help someone with? *<textarea name="can_help" required rows="4" maxlength="3000"></textarea></label>
+    <label>What do people tend to come to you for?<textarea name="asked_about" rows="3" maxlength="2000"></textarea></label>
+    <label>What are you curious about?<textarea name="curious" rows="3" maxlength="2000"></textarea></label>
+    <label>What are you currently trying to learn?<textarea name="learning" rows="3" maxlength="2000"></textarea></label>
+    <label>Is there something you could use help with?<textarea name="need_help" rows="3" maxlength="2000"></textarea></label>
+    <label>Who would you like to meet or learn from?<textarea name="meet" rows="3" maxlength="2000"></textarea></label>
+    <fieldset>
+      <legend>How are you happy to help?</legend>
+      <div class="checks">
+        {['Answer a question','Make an introduction','Coffee or chat','Mentor','Speak at an event','Contribute to a project','Help with something practical'].map((item) => <label><input type="checkbox" name="happy_to" value={item} />{item}</label>)}
+      </div>
+    </fieldset>
+    <label>What do you do?<textarea name="work" rows="2" maxlength="1000" placeholder="Context only. This does not lead your profile."></textarea></label>
+    <label>Website or social links<input name="links" type="url" maxlength="500" placeholder="https://" /></label>
+    <label class="consent"><input type="checkbox" name="consent" required />I give Ripples permission to review the information submitted and contact me about participation. Nothing is published automatically, and Ripples will seek my approval before publishing a profile.</label>
+    <p class="form-note">We use this information to review your submission, communicate with you and, if approved, prepare a profile. Your email is not displayed publicly by default. Read the <a href="/privacy">Privacy Policy</a> and <a href="/terms">Terms of Use</a>.</p>
+    <div class="culture"><b>A useful cultural rule</b><p>Commercial activity is welcome. Disguised lead generation is not. Write about what you are genuinely prepared to give, not the service you want to sell.</p></div>
+    <button class="button" type="submit">Submit for review</button>
+    <p class="form-note form-status" id="form-note" role="status" aria-live="polite">Your submission will be sent securely to Ripples.</p>
+  </form>
+  <script>
+    const form = document.querySelector<HTMLFormElement>('#join-form');
+    const note = document.querySelector<HTMLElement>('#form-note');
+    const button = form?.querySelector<HTMLButtonElement>('button[type="submit"]');
+
+    form?.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (!form.reportValidity()) return;
+      const data = new FormData(form);
+      const payload = Object.fromEntries(data.entries()) as Record<string, unknown>;
+      payload.type = 'join';
+      payload.consent = data.get('consent') === 'on';
+      payload.happy_to = data.getAll('happy_to');
+      if (button) { button.disabled = true; button.textContent = 'Sending…'; }
+      if (note) { note.textContent = 'Sending your submission…'; note.className = 'form-note form-status'; }
+      try {
+        const response = await fetch('https://forms.jointheripple.com.au', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        const result = await response.json();
+        if (!response.ok || !result.ok) throw new Error(result.message || 'Unable to send your submission.');
+        form.reset();
+        if (note) { note.textContent = result.message; note.className = 'form-note form-status success'; }
+      } catch (error) {
+        if (note) { note.textContent = error instanceof Error ? error.message : 'Something went wrong. Please try again.'; note.className = 'form-note form-status error'; }
+      } finally {
+        if (button) { button.disabled = false; button.textContent = 'Submit for review'; }
+      }
+    });
+  </script>
+</Base>

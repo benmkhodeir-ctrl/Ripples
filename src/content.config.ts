@@ -1,0 +1,8 @@
+import { defineCollection, z } from 'astro:content';
+import { glob } from 'astro/loaders';
+export const collections = {
+  people: defineCollection({loader:glob({pattern:'**/*.{md,mdx}',base:'./src/content/people'}),schema:z.object({name:z.string(),location:z.string().optional(),photo:z.string().optional(),intro:z.string(),canHelpWith:z.array(z.string()),askedAbout:z.array(z.string()).default([]),curiousAbout:z.array(z.string()).default([]),learning:z.array(z.string()).default([]),needsHelpWith:z.array(z.string()).default([]),happyTo:z.array(z.string()).default([]),work:z.string().optional(),links:z.array(z.object({label:z.string(),url:z.string().url()})).default([]),published:z.boolean().default(false)})}),
+  ideas: defineCollection({loader:glob({pattern:'**/*.{md,mdx}',base:'./src/content/ideas'}),schema:z.object({title:z.string(),description:z.string(),publishedAt:z.coerce.date(),format:z.enum(['Better Question','What We Learned','Worth Passing On','Essay','Observation','Conversation','Recommendation']),author:z.string().default('Ripples'),draft:z.boolean().default(true)})}),
+  episodes: defineCollection({loader:glob({pattern:'**/*.{md,mdx}',base:'./src/content/episodes'}),schema:z.object({title:z.string(),guest:z.string(),description:z.string(),publishedAt:z.coerce.date().optional(),audioUrl:z.string().url().optional(),image:z.string().optional(),draft:z.boolean().default(true)})}),
+  events: defineCollection({loader:glob({pattern:'**/*.{md,mdx}',base:'./src/content/events'}),schema:z.object({title:z.string(),description:z.string(),startsAt:z.coerce.date(),location:z.string(),status:z.enum(['upcoming','past']),bookingUrl:z.string().url().optional(),draft:z.boolean().default(true)})})
+};

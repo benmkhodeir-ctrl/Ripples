@@ -1,0 +1,48 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Contact — Ripples">
+  <section class="page-head">
+    <p class="eyebrow">Contact</p>
+    <h1>Start with something <em>useful.</em></h1>
+    <p class="lede">Suggest a person, pass on an idea, ask a question or tell us about an interaction Ripples could help create.</p>
+  </section>
+  <form class="join-form compact" id="contact-form">
+    <input class="form-trap" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true" />
+    <label>Name *<input name="name" required autocomplete="name" maxlength="120" /></label>
+    <label>Email *<input type="email" name="email" required autocomplete="email" maxlength="254" /></label>
+    <label>Message *<textarea name="message" required rows="6" maxlength="5000"></textarea></label>
+    <button class="button" type="submit">Contact via Ripples</button>
+    <p class="form-note">We use your details to respond to your message and manage any follow-up. See our <a href="/privacy">Privacy Policy</a>.</p>
+    <p class="form-note form-status" id="contact-note" role="status" aria-live="polite"></p>
+  </form>
+  <script>
+    const form = document.querySelector<HTMLFormElement>('#contact-form');
+    const note = document.querySelector<HTMLElement>('#contact-note');
+    const button = form?.querySelector<HTMLButtonElement>('button[type="submit"]');
+
+    form?.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (!form.reportValidity()) return;
+      const payload = Object.fromEntries(new FormData(form).entries());
+      payload.type = 'contact';
+      if (button) { button.disabled = true; button.textContent = 'Sending…'; }
+      if (note) { note.textContent = 'Sending your message…'; note.className = 'form-note form-status'; }
+      try {
+        const response = await fetch('https://forms.jointheripple.com.au', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        const result = await response.json();
+        if (!response.ok || !result.ok) throw new Error(result.message || 'Unable to send your message.');
+        form.reset();
+        if (note) { note.textContent = result.message; note.className = 'form-note form-status success'; }
+      } catch (error) {
+        if (note) { note.textContent = error instanceof Error ? error.message : 'Something went wrong. Please try again.'; note.className = 'form-note form-status error'; }
+      } finally {
+        if (button) { button.disabled = false; button.textContent = 'Contact via Ripples'; }
+      }
+    });
+  </script>
+</Base>

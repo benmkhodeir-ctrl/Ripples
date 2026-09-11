@@ -1,0 +1,30 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+const people = (await getCollection('people')).filter((person) => person.data.published);
+---
+<Base title="People | Ripples" description="Meet people through how they can help, what they are curious about and what they want to learn.">
+  <section class="page-head">
+    <p class="eyebrow">The network</p>
+    <h1>People are more than <em>what they do.</em></h1>
+    <p class="lede">Discover people through what they can share, what they are learning and the useful interactions they are open to.</p>
+  </section>
+  <section class="filter-preview" aria-label="Future help discovery">
+    <label for="help">I could use someone who understands…</label>
+    <div><input id="help" type="search" placeholder="running events, changing careers, starting a business…" disabled /><button disabled>Find someone</button></div>
+    <p>Help based discovery will grow from the real people who join, rather than a fixed industry directory.</p>
+  </section>
+  <section class="people-list" aria-label="People in the Ripples network">
+    {people.map((person) => (
+      <a class="person-card" href={`/people/${person.id}/`}>
+        {person.data.photo && <img src={person.data.photo} alt={person.data.name} />}
+        <div>
+          <p class="eyebrow">{person.data.location}</p>
+          <h2>{person.data.name}</h2>
+          <p>{person.data.intro}</p>
+          <span>Meet {person.data.name} →</span>
+        </div>
+      </a>
+    ))}
+  </section>
+</Base>

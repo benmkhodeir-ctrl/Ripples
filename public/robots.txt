@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://ripples-network.carlingfordgourmetpi.chatgpt.site/sitemap.xml

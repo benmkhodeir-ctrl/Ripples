@@ -1,0 +1,165 @@
+.people-list {
+  margin: 80px auto 130px;
+  max-width: 1050px;
+  padding: 0 28px;
+}
+
+.person-card {
+  align-items: center;
+  border-bottom: 1px solid var(--stone);
+  border-top: 1px solid var(--stone);
+  display: grid;
+  gap: clamp(34px, 6vw, 80px);
+  grid-template-columns: minmax(220px, 390px) 1fr;
+  padding: 44px 0;
+}
+
+.person-card img {
+  aspect-ratio: 1;
+  object-fit: cover;
+  width: 100%;
+}
+
+.person-card h2 {
+  font-size: clamp(44px, 6vw, 72px);
+  margin-bottom: 24px;
+}
+
+.person-card span {
+  border-bottom: 1px solid currentColor;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 600;
+  margin-top: 18px;
+  padding-bottom: 4px;
+}
+
+.person-profile {
+  margin: 0 auto;
+  max-width: 1200px;
+  padding: 90px max(5vw, 28px) 130px;
+}
+
+.profile-head {
+  align-items: center;
+  display: grid;
+  gap: clamp(44px, 8vw, 110px);
+  grid-template-columns: 1.15fr .85fr;
+  padding-bottom: 100px;
+}
+
+.profile-head h1 {
+  margin-bottom: 30px;
+}
+
+.profile-head img {
+  aspect-ratio: 1;
+  object-fit: cover;
+  width: 100%;
+}
+
+.profile-intro {
+  color: #344653;
+  font: 500 clamp(22px, 2.5vw, 31px)/1.42 var(--serif);
+  max-width: 700px;
+}
+
+.profile-sections {
+  display: grid;
+  gap: 0 70px;
+  grid-template-columns: 1fr 1fr;
+}
+
+.profile-sections section {
+  border-top: 1px solid var(--stone);
+  padding: 45px 0 55px;
+}
+
+.profile-sections h2 {
+  font-size: clamp(34px, 4vw, 48px);
+  line-height: 1.05;
+}
+
+.profile-sections ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.profile-sections li {
+  margin-bottom: 12px;
+}
+
+.profile-feature,
+.profile-work {
+  grid-column: 1 / -1;
+}
+
+.profile-feature ul {
+  display: grid;
+  font: 500 clamp(26px, 3vw, 40px)/1.2 var(--serif);
+  gap: 0 60px;
+  grid-template-columns: 1fr 1fr;
+  list-style: none;
+  padding: 0;
+}
+
+.profile-feature li {
+  border-bottom: 1px solid #d4d1c8;
+  padding: 22px 0;
+}
+
+.profile-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.profile-tags span {
+  border: 1px solid var(--stone);
+  padding: 9px 14px;
+}
+
+.profile-work p:last-child {
+  font-size: 19px;
+  max-width: 780px;
+}
+
+.profile-contact {
+  background: var(--teal);
+  color: white;
+  margin-top: 50px;
+  padding: clamp(40px, 7vw, 80px);
+}
+
+.profile-contact .eyebrow {
+  color: #cce3df;
+}
+
+.profile-contact h2 {
+  margin-bottom: 24px;
+}
+
+.profile-contact p:not(.eyebrow) {
+  max-width: 620px;
+}
+
+@media (max-width: 760px) {
+  .person-card,
+  .profile-head,
+  .profile-sections {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-head img {
+    grid-row: 1;
+  }
+
+  .profile-feature,
+  .profile-work {
+    grid-column: auto;
+  }
+
+  .profile-feature ul {
+    grid-template-columns: 1fr;
+  }
+}

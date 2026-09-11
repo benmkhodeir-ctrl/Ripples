@@ -1,0 +1,60 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+export async function getStaticPaths() {
+  const people = (await getCollection('people')).filter((person) => person.data.published);
+  return people.map((person) => ({ params: { slug: person.id }, props: { person } }));
+}
+
+const { person } = Astro.props;
+await render(person);
+const data = person.data;
+---
+<Base title={`${data.name} | People | Ripples`} description={data.intro}>
+  <article class="person-profile">
+    <header class="profile-head">
+      <div>
+        <p class="eyebrow">{data.location}</p>
+        <h1>{data.name}</h1>
+        <p class="profile-intro">{data.intro}</p>
+      </div>
+      {data.photo && <img src={data.photo} alt={data.name} />}
+    </header>
+
+    <div class="profile-sections">
+      <section class="profile-feature">
+        <p class="eyebrow">I can help with</p>
+        <ul>{data.canHelpWith.map((item) => <li>{item}</li>)}</ul>
+      </section>
+      {data.askedAbout.length > 0 && <section>
+          <h2>People tend to ask me about</h2>
+          <ul>{data.askedAbout.map((item) => <li>{item}</li>)}</ul>
+        </section>}
+      {data.curiousAbout.length > 0 && <section>
+          <h2>I’m curious about</h2>
+          <ul>{data.curiousAbout.map((item) => <li>{item}</li>)}</ul>
+        </section>}
+      {data.learning.length > 0 && <section>
+          <h2>I’m currently trying to learn</h2>
+          <ul>{data.learning.map((item) => <li>{item}</li>)}</ul>
+        </section>}
+      {data.needsHelpWith.length > 0 && <section>
+          <h2>I could use help with</h2>
+          <ul>{data.needsHelpWith.map((item) => <li>{item}</li>)}</ul>
+        </section>}
+      {data.happyTo.length > 0 && <section>
+          <h2>Happy to</h2>
+          <div class="profile-tags">{data.happyTo.map((item) => <span>{item}</span>)}</div>
+        </section>}
+      {data.work && <section class="profile-work"><p class="eyebrow">What I do</p><p>{data.work}</p></section>}
+    </div>
+
+    <aside class="profile-contact">
+      <p class="eyebrow">One useful interaction creates another</p>
+      <h2>Could Ben help?</h2>
+      <p>Contact Ripples with the question, idea or introduction you have in mind. Personal contact details stay private.</p>
+      <a class="button light" href="/contact">Contact via Ripples</a>
+    </aside>
+  </article>
+</Base>

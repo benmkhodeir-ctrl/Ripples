@@ -1,0 +1,54 @@
+.legal-intro {
+  color: #344653;
+  font: 500 24px/1.45 var(--serif);
+}
+
+.legal li {
+  margin-bottom: 10px;
+}
+
+.legal a,
+.form-note a {
+  text-decoration: underline;
+  text-decoration-color: var(--sea);
+  text-underline-offset: 3px;
+}
+
+.legal-note {
+  background: #e5e6df;
+  border-left: 3px solid var(--teal);
+  margin-top: 70px;
+  padding: 20px 24px;
+}
+
+.legal-note p {
+  margin: 5px 0 0;
+}
+
+.form-trap {
+  position: absolute !important;
+  left: -10000px !important;
+  width: 1px !important;
+  height: 1px !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+.form-status {
+  margin-top: 18px;
+}
+
+.form-status.success {
+  color: var(--teal);
+  font-weight: 600;
+}
+
+.form-status.error {
+  color: #9b2c2c;
+  font-weight: 600;
+}
+
+.join-form button:disabled {
+  cursor: wait;
+  opacity: .65;
+}
