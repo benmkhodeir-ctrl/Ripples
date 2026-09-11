@@ -1,1 +1,5 @@
 /people/ziyad-subir/ /people/ziyad-sabir/ 301
+http://jointheripple.com.au/* https://jointheripple.com.au/:splat 301
+http://www.jointheripple.com.au/* https://jointheripple.com.au/:splat 301
+https://www.jointheripple.com.au/* https://jointheripple.com.au/:splat 301
+/:path/index.html /:path/ 301

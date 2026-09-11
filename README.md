@@ -48,6 +48,8 @@ Brand colours and type roles are defined in `src/styles/global.css`. Use EB Gara
 
 The site is an Astro static build. Hosting identity is stored in `.openai/hosting.json`. Push approved source to the connected repository and deploy the generated `dist/` output.
 
+The canonical site origin is `https://jointheripple.com.au`. Submit `https://jointheripple.com.au/sitemap.xml` in Google Search Console, then add Google's supplied verification meta tag to `src/layouts/Base.astro`. Cloudflare Web Analytics should be enabled for the production hostname in Cloudflare so it can inject the beacon without committing an account token to this public repository.
+
 ## Forms and submissions
 
 The Join and Contact forms submit to the `ripples-forms` Cloudflare Worker at `forms.jointheripple.com.au`. The Worker validates and rate-limits requests, stores them in the `ripples-submissions` D1 database and sends a notification to the verified operating inbox. The browser never exposes the destination inbox.

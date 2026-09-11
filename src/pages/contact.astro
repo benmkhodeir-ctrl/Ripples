@@ -1,48 +1,28 @@
 ---
 import Base from '../layouts/Base.astro';
+import NextBand from '../components/NextBand.astro';
 ---
-<Base title="Contact — Ripples">
-  <section class="page-head">
-    <p class="eyebrow">Contact</p>
-    <h1>Start with something <em>useful.</em></h1>
-    <p class="lede">Suggest a person, pass on an idea, ask a question or tell us about an interaction Ripples could help create.</p>
-  </section>
-  <form class="join-form compact" id="contact-form">
-    <input class="form-trap" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true" />
-    <label>Name *<input name="name" required autocomplete="name" maxlength="120" /></label>
-    <label>Email *<input type="email" name="email" required autocomplete="email" maxlength="254" /></label>
-    <label>Message *<textarea name="message" required rows="6" maxlength="5000"></textarea></label>
-    <button class="button" type="submit">Contact via Ripples</button>
-    <p class="form-note">We use your details to respond to your message and manage any follow-up. See our <a href="/privacy">Privacy Policy</a>.</p>
-    <p class="form-note form-status" id="contact-note" role="status" aria-live="polite"></p>
-  </form>
-  <script>
-    const form = document.querySelector<HTMLFormElement>('#contact-form');
-    const note = document.querySelector<HTMLElement>('#contact-note');
-    const button = form?.querySelector<HTMLButtonElement>('button[type="submit"]');
-
-    form?.addEventListener('submit', async (event) => {
-      event.preventDefault();
-      if (!form.reportValidity()) return;
-      const payload = Object.fromEntries(new FormData(form).entries());
-      payload.type = 'contact';
-      if (button) { button.disabled = true; button.textContent = 'Sending…'; }
-      if (note) { note.textContent = 'Sending your message…'; note.className = 'form-note form-status'; }
-      try {
-        const response = await fetch('https://forms.jointheripple.com.au', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
-        });
-        const result = await response.json();
-        if (!response.ok || !result.ok) throw new Error(result.message || 'Unable to send your message.');
-        form.reset();
-        if (note) { note.textContent = result.message; note.className = 'form-note form-status success'; }
-      } catch (error) {
-        if (note) { note.textContent = error instanceof Error ? error.message : 'Something went wrong. Please try again.'; note.className = 'form-note form-status error'; }
-      } finally {
-        if (button) { button.disabled = false; button.textContent = 'Contact via Ripples'; }
-      }
-    });
-  </script>
-</Base>
+<Base title="Contact Ripples | Start with something useful" description="Suggest a person, pass on an idea or question, discuss a conversation, make an introduction or offer a venue.">
+<section class="page-head"><p class="section-label">Contact</p><h1>Start with something <em>useful.</em></h1><p class="lede">Suggest a person, pass on an idea, ask a question or tell us about an interaction Ripples could help create.</p></section>
+<section class="form-layout contact-layout"><form class="join-form compact" id="contact-form"><input class="form-trap" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true"/>
+<label>What is it about?<select name="topic"><option>Suggest a person</option><option>Pass on an idea or question</option><option>Podcast or conversation related</option><option>Make an introduction</option><option>Event or venue related</option><option>Something else</option></select></label>
+<label>Name *<input name="name" required autocomplete="name" maxlength="120"/></label><label>Email *<input type="email" name="email" required autocomplete="email" maxlength="254"/></label><label>Message *<textarea name="message" required rows="7" maxlength="5000"></textarea></label>
+<button class="button" type="submit">Send to Ripples</button><p class="form-note">We use your details to respond and manage any follow up. Your email remains private. See our <a href="/privacy/">Privacy Policy</a>.</p><p class="form-note form-status" id="contact-note" role="status" aria-live="polite"></p>
+<div class="form-success" id="contact-success" hidden tabindex="-1"><span class="rings one" aria-hidden="true"></span><h2>Sent. Thank you.</h2><p>A person will read your message and respond where a reply is needed.</p></div></form>
+<aside class="process-panel"><p class="section-label">Other ways in</p><h2>Not every useful interaction starts the same way.</h2><p>If you want to offer help and be considered for a profile, use Join the Ripple. For everything else, this form is the simplest route.</p><a class="text-link" href="/join/">Join the Ripple →</a></aside></section>
+<NextBand title="Meet the people behind the questions." body="See what people can help with and what they are curious about." href="/people/" link="Explore People"/>
+<script>
+const form=document.querySelector<HTMLFormElement>('#contact-form');
+const note=document.querySelector<HTMLElement>('#contact-note');
+const button=form?.querySelector<HTMLButtonElement>('button[type="submit"]');
+const success=document.querySelector<HTMLElement>('#contact-success');
+form?.addEventListener('submit',async event=>{
+  event.preventDefault();if(!form.reportValidity())return;
+  const payload=Object.fromEntries(new FormData(form).entries());
+  payload.type='contact';payload.message=`Topic: ${payload.topic}\n\n${payload.message}`;
+  if(button){button.disabled=true;button.textContent='Sending…'}if(note)note.textContent='Sending your message…';
+  try{const response=await fetch('https://forms.jointheripple.com.au',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});const result=await response.json();if(!response.ok||!result.ok)throw new Error(result.message||'Unable to send your message.');[...form.children].forEach(element=>{if(element!==success)(element as HTMLElement).hidden=true});if(success){success.hidden=false;success.focus()}}
+  catch(error){if(note){note.textContent=error instanceof Error?error.message:'Something went wrong. Please try again.';note.className='form-note form-status error'}}
+  finally{if(button){button.disabled=false;button.textContent='Send to Ripples'}}
+});
+</script></Base>

@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
+import NextBand from '../../components/NextBand.astro';
 
 export async function getStaticPaths() {
   const people = (await getCollection('people')).filter((person) => person.data.published);
@@ -13,6 +14,7 @@ const data = person.data;
 ---
 <Base title={`${data.name} | People | Ripples`} description={data.intro}>
   <article class="person-profile">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/people/">People</a><span aria-hidden="true">/</span><span>{data.name}</span></nav>
     <header class="profile-head">
       <div>
         <p class="eyebrow">{data.location}</p>
@@ -52,9 +54,10 @@ const data = person.data;
 
     <aside class="profile-contact">
       <p class="eyebrow">One useful interaction creates another</p>
-      <h2>Could Ben help?</h2>
+      <h2>Ask {data.name} something.</h2>
       <p>Contact Ripples with the question, idea or introduction you have in mind. Personal contact details stay private.</p>
-      <a class="button light" href="/contact">Contact via Ripples</a>
+      <a class="button light" href={`/contact/?person=${encodeURIComponent(data.name)}`}>Ask via Ripples</a>
     </aside>
   </article>
+  <NextBand eyebrow="Keep exploring" title="Meet someone else." body="Return to People and follow another question, interest or offer of help." href="/people/" link="Back to People"/>
 </Base>

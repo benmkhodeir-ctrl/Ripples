@@ -1,0 +1,4 @@
+---
+const { eyebrow='Keep exploring', title, body, href, link='Continue' }=Astro.props;
+---
+<aside class="next-band"><a href={href}><div><p class="section-label">{eyebrow}</p><h2>{title}</h2><p>{body}</p></div><span>{link} <b aria-hidden="true">→</b></span></a></aside>
