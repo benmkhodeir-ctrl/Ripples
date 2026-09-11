@@ -52,6 +52,8 @@ The site is an Astro static build. Hosting identity is stored in `.openai/hostin
 
 The Join and Contact forms submit to the `ripples-forms` Cloudflare Worker at `forms.jointheripple.com.au`. The Worker validates and rate-limits requests, stores them in the `ripples-submissions` D1 database and sends a notification to the verified operating inbox. The browser never exposes the destination inbox.
 
+Set the Worker's `NOTIFICATION_TO` environment variable to the verified notification address before deployment. Do not commit the destination inbox to the repository.
+
 Worker source and the database schema are kept in `workers/`. When changing form fields, update the page, Worker validation, database schema and Privacy Policy together. Do not publish a profile directly from a submission. Obtain the participant's approval for the edited public profile first.
 
 Cloudflare Email Routing forwards `hello@`, `join@` and `privacy@jointheripple.com.au` to the operating inbox. Routing provides inbound forwarding only; it is not a hosted outbound mailbox.
