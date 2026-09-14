@@ -1,7 +1,7 @@
 # Ripples — Product & Infrastructure Source of Truth
 
 **Last verified:** 14 September 2026  
-**Status:** live; GitHub-connected Cloudflare Pages migration in progress
+**Status:** live; GitHub-connected Cloudflare Pages is the production host
 
 ## Product
 
@@ -26,7 +26,7 @@ Do not create or maintain a separate editable copy in a hosting or website produ
 - Build output: `dist`
 - Cloudflare Pages project: `ripples`
 - Pages hostname: `https://ripples-244.pages.dev`
-- Intended production domain: `https://jointheripple.com.au`
+- Production domain: `https://jointheripple.com.au`
 - Automatic production deployments: GitHub pushes to `main`
 - Preview deployments: enabled for non-production branches
 
@@ -34,7 +34,7 @@ Target architecture:
 
 `GitHub main → Cloudflare Pages project ripples → jointheripple.com.au`
 
-The previous Sites project is no longer part of the development workflow. Its custom-domain service remains the incumbent production host only until the Cloudflare Pages deployment and domain cutover are verified.
+The previous Sites project is no longer part of the development or production workflow. GitHub `main` is the sole editable source, and Cloudflare Pages is the production host.
 
 ## Important directories
 
@@ -114,4 +114,3 @@ Email-routing MX, SPF and DKIM records must be preserved during website DNS chan
 - Podcast, ideas and events collections are intentionally sparse while real material is developed.
 - The homepage explains the intended content journey before the first podcast episodes are published.
 - Form infrastructure is a separate Worker deployment and must be verified independently from the static site.
-- Until the custom-domain cutover is complete, the public domain still depends on the incumbent Sites hosting service even though GitHub and Cloudflare Pages are now the intended architecture.
